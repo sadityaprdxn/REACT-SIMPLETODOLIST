@@ -20,23 +20,16 @@ class Todo extends Component {
     }
 
     deleteItem = (index) => {
-        this.setState((prevState) => ({
+        this.setState((prevState) => {
+            var updatedArray = prevState.todoList.filter((element , i)=>{
+                return i !== index;
+            })
+
+            return({
                 value: prevState.value,
-                todoList: this.deleteFromArray(index, prevState.todoList)
-        }));
-    }
-
-    deleteFromArray = (index, array) => {
-        console.log(index);
-        let updatedArray = array;
-        updatedArray.splice(index, 1);
-        return updatedArray;
-    }
-
-    addToArray = (value, array) => {
-        let updatedArray = array;
-        updatedArray.push(value);
-        return updatedArray;
+                todoList: updatedArray
+            })
+        });
     }
 
     addTodos = (e) => {
@@ -44,7 +37,7 @@ class Todo extends Component {
         e.preventDefault();
         if (this.state.value !== '') {
             this.setState((prevState) => ({
-                    todoList: this.addToArray(prevState.value, prevState.todoList),
+                    todoList: [...prevState.todoList, prevState.value],
                     value: ""
             }))
         }
